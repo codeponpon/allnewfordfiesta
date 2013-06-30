@@ -224,8 +224,34 @@ function template_main()
 				</tr>';
 		}
 
+		// foreach ($context['topics'] as $topic)
+		// {
+		$stickybar = false;
+		$normalbar = false;
 		foreach ($context['topics'] as $topic)
 		{
+			if ($topic['is_sticky'] && !$stickybar)
+			{
+				echo '
+					<tr class="titlebg">
+						<td colspan="', empty($options['display_quick_mod']) ? '7' : '8', '">
+							<strong>', $txt['costa_topico_fixo'], '</strong>
+						</td>
+					</tr>
+				';
+				$stickybar = true;
+			}
+			elseif (!$topic['is_sticky'] && $stickybar && !$normalbar)
+			{
+				echo '
+					<tr class="titlebg">
+						<td colspan="', empty($options['display_quick_mod']) ? '7' : '8', '">
+							<strong>', $txt['costa_topico_normal'], '</strong>
+						</td>
+					</tr>
+				';
+				$normalbar = true;
+			}
 			// Is this topic pending approval, or does it have any posts pending approval?
 			if ($context['can_approve_posts'] && $topic['unapproved_posts'])
 				$color_class = !$topic['approved'] ? 'approvetbg' : 'approvebg';
