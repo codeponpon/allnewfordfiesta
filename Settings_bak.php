@@ -19,7 +19,7 @@ $mmessage = 'Okay faithful users...we\'re attempting to restore an older backup 
 
 ########## Forum Info ##########
 $mbname = 'All New Ford Fiesta';		# The name of your forum.
-$language = 'english';		# The default language file set for the forum.
+$language = 'thai-utf8';		# The default language file set for the forum.
 $boardurl = 'http://allnewfordfiesta.dev';		# URL to your forum's folder. (without the trailing /!)
 $webmaster_email = 'codeponpon@outlook.com';		# Email address to send emails from. (like noreply@yourdomain.com.)
 $cookiename = 'SMFCookie512';		# Name of the cookie to set for authentication.
