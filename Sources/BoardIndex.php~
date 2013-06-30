@@ -66,6 +66,9 @@ function BoardIndex()
 	);
 	$context += getMembersOnlineStats($membersOnlineOptions);
 
+	// Get the user online today list.
+	$context += getUsersOnlineTodayStats();
+			
 	$context['show_buddies'] = !empty($user_info['buddies']);
 
 	// Are we showing all membergroups on the board index?

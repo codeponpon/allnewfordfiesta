@@ -233,6 +233,41 @@ function MessageIndex()
 		'countChildPosts' => !empty($modSettings['countChildPosts']),
 	);
 	$context['boards'] = getBoardIndex($boardIndexOptions);
+	
+	// Calculation of board viewers ... By HarzeM
+	if (!empty($modSettings['enable_board_viewers']) && isset($context['boards']) && is_array($context['boards']))
+	{
+		foreach($context['boards'] as $key => $boards)
+		{
+			$this_guests = $boards['viewers']['guests'];
+			$this_members = $boards['viewers']['members'];
+			$this_viewers = $this_guests + $this_members;
+			
+			$context['boards'][$key]['viewer_text'] = ($this_viewers > 0) ?
+				('<span class="smalltext" style="float:right;">(' .
+					(!empty($modSettings['boardViewersClickable']) ? '<a href="'.$scripturl.'?action=viewers;board='.$key.'" onclick="return reqWin(this.href);" title="'.$txt['viewersBrowsing'].'">' : '') .
+					(!empty($modSettings['boardViewersGuestsMembers']) ? 
+						((($this_members > 1) ? "<b>".$this_members."</b> ". $txt['board_v_members'] : "<b>".$this_members."</b> ". $txt['board_v_member']) .
+						 (($this_guests > 1) ? ", <b>".$this_guests."</b> ". $txt['board_v_guests'] : ", <b>".$this_guests."</b> ". $txt['board_v_guest']))
+						: (($this_viewers > 1) ? "<b>".$this_viewers."</b> ". $txt['board_viewers'] : "<b>".$this_viewers."</b> ". $txt['board_viewer'])
+					) .
+					(!empty($modSettings['boardViewersClickable']) ? '</a>' : '') .
+				')</span>')
+				: '' ;
+				
+			if($boards['children'] !== array())
+			{
+				foreach($boards['children'] as $keych => $child)
+				{
+					$this_guests = $child['viewers']['guests'];
+					$this_members = $child['viewers']['members'];
+					$this_viewers = $this_guests + $this_members;
+					$context['boards'][$key]['children'][$keych]['viewer_text'] = ($this_viewers > 0) ? (($this_viewers > 1) ? ", ". $txt['board_viewers_child'] . ": " . $this_viewers : ", ". $txt['board_viewer_child'] . ": " . $this_viewers) : '';
+				}
+			}
+
+		}
+	}
 
 	// Nosey, nosey - who's viewing this topic?
 	if (!empty($settings['display_who_viewing']))

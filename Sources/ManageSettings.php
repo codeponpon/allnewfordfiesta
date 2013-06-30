@@ -478,6 +478,12 @@ function ModifyBasicSettings($return_config = false)
 			array('int', 'lastActive'),
 			array('int', 'lastActiveFake'),
 		'',
+			// Board Viewers By HarzeM
+			array('check', 'enable_board_viewers'),
+			array('check', 'boardViewersGuestsMembers'),
+			array('check', 'boardViewersClickable'),
+			array('check', 'countChildPosts'),
+		'',
 			// Statistics.
 			array('check', 'trackStats'),
 			array('check', 'hitStats'),
@@ -2019,7 +2025,11 @@ function ModifyGeneralModSettings($return_config = false)
 	global $txt, $scripturl, $context, $settings, $sc, $modSettings;
 
 	$config_vars = array(
-		// Mod authors, add any settings UNDER this line. Include a comma at the end of the line and don't remove this statement!!
+
+			// InformationBarMod
+			array('check', 'ib_enable'),
+			array('large_text', 'ib_text', '5'),
+					// Mod authors, add any settings UNDER this line. Include a comma at the end of the line and don't remove this statement!!
 	);
 
 	// Make it even easier to add new settings.

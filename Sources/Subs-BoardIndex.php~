@@ -39,44 +39,6 @@ function getBoardIndex($boardIndexOptions)
 			'ref' => 0,
 		);
 
-	// Board Viewers - by HarzeM
-	$board_viewers = array();
-	if (!empty($modSettings['enable_board_viewers']))
-	{		
-		// get the users that are on some boards :)
-		$request = $smcFunc['db_query']('', "
-			SELECT session, url, id_member
-			FROM {db_prefix}log_online
-			WHERE INSTR(url, 's:5:\"board\";i:')",
-			array()
-		);
-
-		// for each user ...
-		while($row = $smcFunc['db_fetch_assoc']($request))
-		{
-			// no user ?! useless forum!
-			if (empty($row['session']))
-				continue;
-			
-			$viewerdata = @unserialize($row['url']);
-			
-			// Check if there was no action or the action is display.
-			if (!isset($viewerdata['action']) || $viewerdata['action'] == 'display')
-			{
-				if (isset($viewerdata['board']))
-				{
-					if(!isset($board_viewers[$viewerdata['board']]))
-						$board_viewers[$viewerdata['board']] = array ('guests' => 0, 'members' => 0);
-					if($row['id_member'] > 0)
-						$board_viewers[$viewerdata['board']]['members']++;
-					else
-						$board_viewers[$viewerdata['board']]['guests']++;
-						
-				}
-			}
-		}
-		$smcFunc['db_free_result']($request);
-	}
 	// Find all boards and categories, as well as related information.  This will be sorted by the natural order of boards and categories, which we control.
 	$result_boards = $smcFunc['db_query']('boardindex_fetch_boards', '
 		SELECT' . ($boardIndexOptions['include_categories'] ? '
@@ -177,10 +139,6 @@ function getBoardIndex($boardIndexOptions)
 					'children_new' => false,
 					'topics' => $row_board['num_topics'],
 					'posts' => $row_board['num_posts'],
-					'viewers' => isset($board_viewers[$row_board['id_board']]) ? array(
-						'guests' => $board_viewers[$row_board['id_board']]['guests'],
-						'members' => $board_viewers[$row_board['id_board']]['members'])  : array('guests' => 0, 'members' =>0 ), // Board Viewers - by HarzeM
-
 					'is_redirect' => $row_board['is_redirect'],
 					'unapproved_topics' => $row_board['unapproved_topics'],
 					'unapproved_posts' => $row_board['unapproved_posts'] - $row_board['unapproved_topics'],
@@ -213,10 +171,6 @@ function getBoardIndex($boardIndexOptions)
 				'new' => empty($row_board['is_read']) && $row_board['poster_name'] != '',
 				'topics' => $row_board['num_topics'],
 				'posts' => $row_board['num_posts'],
-				'viewers' => isset($board_viewers[$row_board['id_board']]) ? array(
-					'guests' => $board_viewers[$row_board['id_board']]['guests'],
-					'members' => $board_viewers[$row_board['id_board']]['members'])  : array('guests' => 0, 'members' =>0 ), // Board Viewers - by HarzeM
-
 				'is_redirect' => $row_board['is_redirect'],
 				'unapproved_topics' => $row_board['unapproved_topics'],
 				'unapproved_posts' => $row_board['unapproved_posts'] - $row_board['unapproved_topics'],
@@ -230,12 +184,6 @@ function getBoardIndex($boardIndexOptions)
 			{
 				$this_category[$row_board['id_parent']]['posts'] += $row_board['num_posts'];
 				$this_category[$row_board['id_parent']]['topics'] += $row_board['num_topics'];
-				if(isset($board_viewers[$row_board['id_board']])) // Board Viewers - by HarzeM
-				{
-					$this_category[$row_board['id_parent']]['viewers']['guests'] += $board_viewers[$row_board['id_board']]['guests'];
-					$this_category[$row_board['id_parent']]['viewers']['members'] += $board_viewers[$row_board['id_board']]['members'];
-				}
-
 			}
 
 			// Does this board contain new boards?
@@ -268,14 +216,6 @@ function getBoardIndex($boardIndexOptions)
 				$parent_map[$row_board['id_parent']][0]['topics'] += $row_board['num_topics'];
 				$parent_map[$row_board['id_parent']][1]['posts'] += $row_board['num_posts'];
 				$parent_map[$row_board['id_parent']][1]['topics'] += $row_board['num_topics'];
-				if(isset($board_viewers[$row_board['id_board']])) // Board Viewers - by HarzeM
-				{
-					$parent_map[$row_board['id_parent']][0]['viewers']['guests'] += $board_viewers[$row_board['id_board']]['guests'];
-					$parent_map[$row_board['id_parent']][0]['viewers']['members'] += $board_viewers[$row_board['id_board']]['members'];
-					$parent_map[$row_board['id_parent']][1]['viewers']['guests'] += $board_viewers[$row_board['id_board']]['guests'];
-					$parent_map[$row_board['id_parent']][1]['viewers']['members'] += $board_viewers[$row_board['id_board']]['members'];
-				}
-
 
 				continue;
 			}

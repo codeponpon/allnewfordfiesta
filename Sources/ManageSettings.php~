@@ -476,6 +476,13 @@ function ModifyBasicSettings($return_config = false)
 			// Who's online?
 			array('check', 'who_enabled'),
 			array('int', 'lastActive'),
+			array('int', 'lastActiveFake'),
+		'',
+			// Board Viewers By HarzeM
+			array('check', 'enable_board_viewers'),
+			array('check', 'boardViewersGuestsMembers'),
+			array('check', 'boardViewersClickable'),
+			array('check', 'countChildPosts'),
 		'',
 			// Statistics.
 			array('check', 'trackStats'),

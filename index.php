@@ -324,6 +324,7 @@ function smf_main()
 		'unreadreplies' => array('Recent.php', 'UnreadTopics'),
 		'verificationcode' => array('Register.php', 'VerificationCode'),
 		'viewprofile' => array('Profile.php', 'ModifyProfile'),
+		'viewers' => array('Viewers.php', 'BoardViewers'),
 		'vote' => array('Poll.php', 'Vote'),
 		'viewquery' => array('ViewQuery.php', 'ViewQuery'),
 		'viewsmfile' => array('Admin.php', 'DisplayAdminFile'),

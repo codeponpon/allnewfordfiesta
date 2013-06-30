@@ -3711,3 +3711,41 @@ span.hidelink
 #footer p {
 	margin: 0;
 }
+.redondeado {
+	margin: 20px auto 0;
+}
+.redondeado:before {
+   background: transparent url(../images/arr-der.png) scroll no-repeat top right;
+   margin-bottom: -10px;
+   height: 14px;
+   display: block;
+   border: none;
+   content: url(../images/arr-izq.png);
+   padding: 0;
+   line-height: 0.1;
+   font-size: 1px;
+}
+
+.redondeado:after {
+   display: block;
+   line-height: 0.1;
+   font-size: 1px;
+   content: url(../images/aba-izq.png);
+   margin: 2px 0 0 0;
+   height: 14px;
+   background: transparent url(../images/aba-der.png) scroll no-repeat bottom right;
+   padding: 0;
+}
+
+
+.redondeado * {
+   padding-left: 25px;
+   padding-right: 25px;
+}
+
+.redondeado {
+   padding: 0;
+   background: #993333;
+   color: white;
+   margin-right: -1px;
+}
