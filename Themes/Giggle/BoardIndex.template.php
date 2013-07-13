@@ -82,7 +82,12 @@ function template_main()
 		});
 	// ]]></script>';
 	}
-
+		require_once($boardurl . '/SSI.php');		
+	
+		/* ============================= RECENT POST ================================*/
+		ssi_recentTopics(8, null, null, 'echo', true);  // show Sticky
+		ssi_recentTopics(8, null, null, 'echo', false); // show
+		/* =============================END RECENT POST ================================*/
 	echo '
 	<div id="boardindex_table">
 		<table class="table_list">';

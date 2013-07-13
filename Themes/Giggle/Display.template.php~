@@ -418,25 +418,11 @@ function template_main()
 								</div>';
 
 		// If this is the first post, (#0) just say when it was posted - otherwise give the reply #.
-		
-			if (!empty($context['show_publish_button']) && !$context['user']['is_logged'] || !empty($context['show_publish_button']) && $context['user']['is_logged'] || $message['can_approve'] || $context['can_reply'] || $message['can_modify'] || $message['can_remove'] || $context['can_split'] || $context['can_restore_msg'])
-
+		if ($message['can_approve'] || $context['can_reply'] || $message['can_modify'] || $message['can_remove'] || $context['can_split'] || $context['can_restore_msg'])
 			echo '
 								<ul class="reset smalltext quickbuttons">';
 
-		
-			    if (class_exists('SAFacebookhooks')) {
-				    echo 
-					SAFacebookhooks::facebook_showPub(
-					    array(
-							'subject' => $message['subject'],
-							'body' => $message['body'],
-							'href' => $message['href'],
-							'isPost' => true,
-				        )
-					);
-			    }
-// Maybe we can approve it, maybe we should?
+		// Maybe we can approve it, maybe we should?
 		if ($message['can_approve'])
 			echo '
 									<li class="approve_button"><a href="', $scripturl, '?action=moderate;area=postmod;sa=approve;topic=', $context['current_topic'], '.', $context['start'], ';msg=', $message['id'], ';', $context['session_var'], '=', $context['session_id'], '">', $txt['approve'], '</a></li>';

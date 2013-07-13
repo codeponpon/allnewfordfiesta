@@ -418,7 +418,7 @@ function ssi_queryPosts($query_where = '', $query_where_params = array(), $query
 }
 
 // Recent topic list:   [board] Subject by Poster	Date
-function ssi_recentTopics($num_recent = 8, $exclude_boards = null, $include_boards = null, $output_method = 'echo')
+function ssi_recentTopics($num_recent = 8, $exclude_boards = null, $include_boards = null, $output_method = 'echo', $show_sticky = false)
 {
 	global $context, $settings, $scripturl, $txt, $db_prefix, $user_info;
 	global $modSettings, $smcFunc;
@@ -447,7 +447,7 @@ function ssi_recentTopics($num_recent = 8, $exclude_boards = null, $include_boar
 	// Find all the posts in distinct topics.  Newer ones will have higher IDs.
 	$request = $smcFunc['db_query']('substring', '
 		SELECT
-			m.poster_time, ms.subject, m.id_topic, m.id_member, m.id_msg, b.id_board, b.name AS board_name, t.num_replies, t.num_views,
+			t.is_sticky, m.poster_time, ms.subject, m.id_topic, m.id_member, m.id_msg, b.id_board, b.name AS board_name, t.num_replies, t.num_views,
 			IFNULL(mem.real_name, m.poster_name) AS poster_name, ' . ($user_info['is_guest'] ? '1 AS is_read, 0 AS new_from' : '
 			IFNULL(lt.id_msg, IFNULL(lmr.id_msg, 0)) >= m.id_msg_modified AS is_read,
 			IFNULL(lt.id_msg, IFNULL(lmr.id_msg, -1)) + 1 AS new_from') . ', SUBSTRING(m.body, 1, 384) AS body, m.smileys_enabled, m.icon
@@ -499,6 +499,7 @@ function ssi_recentTopics($num_recent = 8, $exclude_boards = null, $include_boar
 				'link' => '<a href="' . $scripturl . '?board=' . $row['id_board'] . '.0">' . $row['board_name'] . '</a>'
 			),
 			'topic' => $row['id_topic'],
+			'is_sticky' => $row['is_sticky'],
 			'poster' => array(
 				'id' => $row['id_member'],
 				'name' => $row['poster_name'],
@@ -526,26 +527,88 @@ function ssi_recentTopics($num_recent = 8, $exclude_boards = null, $include_boar
 	// Just return it.
 	if ($output_method != 'echo' || empty($posts))
 		return $posts;
-
+	/* ============================= RECENT POST ===================================*/
 	echo '
-		<table border="0" class="ssi_table">';
-	foreach ($posts as $post)
+	<div id="boardindex_table">
+		<table class="table_list">';
 		echo '
-			<tr>
-				<td align="right" valign="top" nowrap="nowrap">
-					[', $post['board']['link'], ']
-				</td>
-				<td valign="top">
-					<a href="', $post['href'], '">', $post['subject'], '</a>
-					', $txt['by'], ' ', $post['poster']['link'], '
-					', !$post['is_new'] ? '' : '<a href="' . $scripturl . '?topic=' . $post['topic'] . '.msg' . $post['new_from'] . ';topicseen#new" rel="nofollow"><img src="' . $settings['lang_images_url'] . '/new.gif" alt="' . $txt['new'] . '" /></a>', '
-				</td>
-				<td align="right" nowrap="nowrap">
-					', $post['time'], '
-				</td>
-			</tr>';
+			<tbody class="header" id="category_', $category['id'], '">
+				<tr>
+					<td colspan="5">
+						<div class="cat_bar">
+							<h3 class="catbg">', ($show_sticky ? $txt['costa_topico_fixo'] : $txt['last_post']), '
+							</h3>
+						</div>
+					</td>
+				</tr>
+			</tbody>';
+		
+		foreach ($posts as $post)
+			if($show_sticky == true && (int)$post['is_sticky']){
+				echo '
+				<tr>
+						<td class="icon windowbg2" colspan="2" align="center"> <img src="', $settings['images_url'] . "/post/thumbup.gif" ,'" /></td>
+						<td class="info windowbg2" width="61%">
+							<a href="', $post['href'], '">', $post['subject'], '</a>
+						', $txt['by'], ' ', $post['poster']['link'], '
+						', !$post['is_new'] ? '' : '<a href="' . $scripturl . '?topic=' . $post['topic'] . '.msg' . $post['new_from'] . ';topicseen#new" rel="nofollow"><img src="' . $settings['lang_images_url'] . '/new.gif" alt="' . $txt['new'] . '" /></a>', '
+						</td>
+						<td class="stats windowbg" align="left">
+							', $post['replies'], ' ', $txt['replies'], '
+							<br />
+							', $post['views'], ' ', $txt['views'], '
+						</td>
+						<td class="lastpost windowbg2" align="left">
+							', $post['time'], '
+					</tr>
+				';
+			}elseif(! $show_sticky && ! (int)$post['is_sticky']){
+				echo '
+				<tr>
+						<td class="icon windowbg2" colspan="2" align="center"><img src="', $settings['images_url'] . "/post/xx.gif" ,'" /></td>
+						<td class="info windowbg2" width="61%">
+							<a href="', $post['href'], '">', $post['subject'], '</a>
+						', $txt['by'], ' ', $post['poster']['link'], '
+						', !$post['is_new'] ? '' : '<a href="' . $scripturl . '?topic=' . $post['topic'] . '.msg' . $post['new_from'] . ';topicseen#new" rel="nofollow"><img src="' . $settings['lang_images_url'] . '/new.gif" alt="' . $txt['new'] . '" /></a>', '
+						</td>
+						<td class="stats windowbg">
+							', $post['replies'], ' ', $txt['replies'], '
+							<br />
+							', $post['views'], ' ', $txt['views'], '
+						</td>
+						<td class="lastpost windowbg2" align="left">
+							', $post['time'], '
+					</tr>
+				';
+			}
+		echo '
+			<tbody class="divider">
+				<tr>
+					<td colspan="4"></td>
+				</tr>
+			</tbody>';
 	echo '
-		</table>';
+		</table>
+	</div>';
+	// echo '
+	// 	<table border="0" class="ssi_table">';
+	// foreach ($posts as $post)
+	// 	echo '
+	// 		<tr>
+	// 			<td align="right" valign="top" nowrap="nowrap">
+	// 				[', $post['board']['link'], ']
+	// 			</td>
+	// 			<td valign="top">
+	// 				<a href="', $post['href'], '">', $post['subject'], '</a>
+	// 				', $txt['by'], ' ', $post['poster']['link'], '
+	// 				', !$post['is_new'] ? '' : '<a href="' . $scripturl . '?topic=' . $post['topic'] . '.msg' . $post['new_from'] . ';topicseen#new" rel="nofollow"><img src="' . $settings['lang_images_url'] . '/new.gif" alt="' . $txt['new'] . '" /></a>', '
+	// 			</td>
+	// 			<td align="right" nowrap="nowrap">
+	// 				', $post['time'], '
+	// 			</td>
+	// 		</tr>';
+	// echo '
+	// 	</table>';
 }
 
 // Show the top poster's name and profile link.

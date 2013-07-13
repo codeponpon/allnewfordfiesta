@@ -725,7 +725,7 @@ function showCodeImage($code)
 	$hasBorder = $simpleBGColor;
 
 	// Is this GD2? Needed for pixel size.
-	$testGD = get_extension_funcs('gd');
+	$testGD = get_extension_funcs('gd2');
 	$gd2 = in_array('imagecreatetruecolor', $testGD) && function_exists('imagecreatetruecolor');
 	unset($testGD);
 
