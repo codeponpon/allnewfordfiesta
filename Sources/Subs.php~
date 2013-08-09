@@ -1699,6 +1699,17 @@ function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = arra
 	$open_tags = array();
 	$message = strtr($message, array("\n" => '<br />'));
 
+	// Aeva - START
+	// Protect noembed & autolink items from embedding *before* BBC parsing - wrap quotes, but don't protect
+	if (empty($parse_tags) && empty($context['uninstalling']) && !empty($modSettings['aeva_enable']) && strlen($message) > 15)
+	{
+		global $sourcedir;
+		@include_once($sourcedir . '/Subs-Aeva.php');
+		if (function_exists('aeva_preprotect'))
+			aeva_preprotect($message, $cache_id);
+	}
+	// Aeva - END
+
 	// The non-breaking-space looks a bit different each time.
 	$non_breaking_space = $context['utf8'] ? ($context['server']['complex_preg_chars'] ? '\x{A0}' : "\xC2\xA0") : '\xA0';
 
@@ -2423,6 +2434,17 @@ function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = arra
 	// Cleanup whitespace.
 	$message = strtr($message, array('  ' => ' &nbsp;', "\r" => '', "\n" => '<br />', '<br /> ' => '<br />&nbsp;', '&#13;' => "\n"));
 
+	// Aeva - START
+	// Do the actual embedding
+	if (empty($parse_tags) && !function_exists('aeva_parse_bbc2'))
+	{
+		global $sourcedir;
+		@include_once($sourcedir . '/Subs-Aeva.php');
+	}
+	if (empty($parse_tags) && function_exists('aeva_parse_bbc2'))
+		aeva_parse_bbc2($message, $smileys, $cache_id);
+	// Aeva - END
+
 	// Cache the output if it took some time...
 	if (isset($cache_key, $cache_t) && array_sum(explode(' ', microtime())) - array_sum(explode(' ', $cache_t)) > 0.05)
 		cache_put_data($cache_key, $message, 240);
@@ -2718,7 +2740,28 @@ function redirectexit($setLocation = '', $refresh = false)
 			$setLocation = preg_replace('/^' . preg_quote($scripturl, '/') . '\?((?:board|topic)=[^#"]+?)(#[^"]*?)?$/e', "\$scripturl . '/' . strtr('\$1', '&;=', '//,') . '.html\$2'", $setLocation);
 	}
 
+	
+	//	Redirections should be pretty too
+	if (!empty($modSettings['pretty_enable_filters']))
+	{
+		global $sourcedir;
+		require_once($sourcedir . '/PrettyUrls-Filters.php');
+		$url = array(0 => array('url' => $setLocation, 'url_id' => 'setLocation'));
+		$filter_callbacks = unserialize($modSettings['pretty_filter_callbacks']);
+		foreach ($filter_callbacks as $callback)
+		{
+			$pretty_url = call_user_func($callback, $url);
+			if (isset($pretty_url[0]['replacement']))
+				break;
+		}
+		if (isset($pretty_url[0]['replacement']))
+			$setLocation = $pretty_url[0]['replacement'];
+		$setLocation = str_replace("\x12", '\'', $setLocation);
+		$setLocation = preg_replace(array('~;+|=;~', '~\?;~', '~\?#|;#|=#~', '~\?$|;$|#$|=$~'), array(';', '?', '#', ''), $setLocation);
+	}
+	
 	// Maybe integrations want to change where we are heading?
+
 	call_integration_hook('integrate_redirect', array(&$setLocation, &$refresh));
 
 	// We send a Refresh header only in special cases because Location looks better. (and is quicker...)

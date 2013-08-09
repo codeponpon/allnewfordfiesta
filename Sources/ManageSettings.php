@@ -175,6 +175,8 @@ function ModifyModSettings()
 
 	$subActions = array(
 		'general' => 'ModifyGeneralModSettings',
+		'aeva' => 'ModifyAevaSettings',
+		'aevasites' => 'ModifyAevaSettings',
 		// Mod authors, once again, if you have a whole section to add do it AFTER this line, and keep a comma at the end.
 	);
 
@@ -190,6 +192,15 @@ function ModifyModSettings()
 		'description' => $txt['modification_settings_desc'],
 		'tabs' => array(
 			'general' => array(
+			),
+			'aeva' => array(
+				// Loads our language file if it hasn't been loaded already
+				'label' => !isset($txt['aeva']) ? (loadlanguage('Aeva') == false ? (loadLanguage('Aeva', 'english') == false ? 'Aeva' : $txt['aeva']) : $txt['aeva']) : $txt['aeva'],
+				'description' => $txt['aeva_desc'],
+			),
+			'aevasites' => array(
+				'label' => !isset($txt['aeva_sites']) ? 'Aeva Sites' : $txt['aeva_sites'],
+				'description' => $txt['aeva_desc'],
 			),
 		),
 	);
@@ -2030,6 +2041,10 @@ function ModifyGeneralModSettings($return_config = false)
 			array('check', 'ib_enable'),
 			array('large_text', 'ib_text', '5'),
 					// Mod authors, add any settings UNDER this line. Include a comma at the end of the line and don't remove this statement!!
+	'',
+		// SMFHacks.com Contact Page
+			array('text', 'smfcontactpage_email'),
+
 	);
 
 	// Make it even easier to add new settings.
@@ -2067,5 +2082,15 @@ function ModifyGeneralModSettings($return_config = false)
 	// This line is to help mod authors do a search/add after if you want to add something here. Keyword: RED INK IS FOR TEACHERS AND THOSE WHO LIKE PAIN!
 	prepareDBSettingContext($config_vars);
 }
+
+
+// Aeva - START
+function ModifyAevaSettings($return_config = false)
+{
+	global $sourcedir;
+	@require_once($sourcedir .'/Subs-Aeva-Admin.php');
+	return aeva_admin_manager($return_config, isset($_GET['sa']) ? $_GET['sa'] : '');
+}
+// Aeva - END
 
 ?>

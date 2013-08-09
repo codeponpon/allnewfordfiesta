@@ -1129,6 +1129,7 @@ function setPermissionLevel($level, $group, $profile = 'null')
 
 	// Standard - ie. members.  They can do anything Restrictive can.
 	$groupLevels['global']['standard'] = array_merge($groupLevels['global']['restrict'], array(
+		'view_contact',
 		'view_mlist',
 		'karma_edit',
 		'pm_read',
@@ -1461,6 +1462,7 @@ function loadAllPermissions($loadType = 'classic')
 	*/
 	$permissionList = array(
 		'membergroup' => array(
+			'view_contact' => array(false, 'general', 'view_basic_info'),
 			'view_stats' => array(false, 'general', 'view_basic_info'),
 			'view_mlist' => array(false, 'general', 'view_basic_info'),
 			'who_view' => array(false, 'general', 'view_basic_info'),

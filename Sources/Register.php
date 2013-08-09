@@ -781,7 +781,7 @@ function VerificationCode()
 	{
 		require_once($sourcedir . '/Subs-Graphics.php');
 
-		if (in_array('gd2', get_loaded_extensions()) && !showCodeImage($code))
+		if (in_array('gd', get_loaded_extensions()) && !showCodeImage($code))
 			header('HTTP/1.1 400 Bad Request');
 
 		// Otherwise just show a pre-defined letter.

@@ -1413,6 +1413,9 @@ p.moderators
 	font-size: 0.8em;
 	font-family: verdana, sans-serif;
 }
+#boardindex_table{
+	clear: both;
+}
 /* hide the table header/footer parts - but its here for those needing to style it */
 #boardindex_table .table_list thead, #boardindex_table .table_list tfoot
 {
@@ -1912,6 +1915,7 @@ ul.quickbuttons li.inline_mod_check
 	padding: 1em 1em 2px 0;
 	margin: 0 1em 0 0;
 	border-top: 1px solid #999;
+	width: 750px;
 }
 img.smiley
 {
@@ -2352,6 +2356,10 @@ fieldset.merge_options
 .login p
 {
 	text-align: center;
+}
+
+.login_footer {
+
 }
 
 /* Styles for the registration section.
@@ -3474,17 +3482,17 @@ span.hidelink
 
 #header {
 	background: #f1f1f1;
-        border: 1px solid #e5e5e5;
-	height: 71px;
+	border: 1px solid #e5e5e5;
+	height: 90px;
 }
 
 #logo a {
 	float: left;
 	display: block;
-	width: 225px;
-	height: 42px;
+	width: 190px;
+	height: 69px;
 	background: url(../images/custom/logo.png) no-repeat;
-        margin-top: 15px;
+    margin-top: 10px;
 }
 
 #top_banner .user {
@@ -3584,17 +3592,17 @@ span.hidelink
 /* Clear floats */
 .fclear {clear:both}
 
-#bar {
+#bar .cat_bar {
 	background: #fff;
 	height: 46px;
-        border-bottom: 1px solid #e5e5e5;
-	height: 40px;
+    /*border-bottom: 1px solid #e5e5e5;*/
+    margin: 5px;
 }
 
 .navigation {
 	position: relative;
 	border-bottom: 1px solid #e5e5e5;
-	height: 40px;
+	/*height: 40px;*/
 	z-index: 1000;
 	padding: 0;
 	margin: 0;
@@ -3693,6 +3701,8 @@ span.hidelink
 	padding: 0 8px 5px;
 }
 #footer {
+	clear: both;
+	overflow: hidden;
 	text-align: center;
 	background: #fff;
 	color: #222;
@@ -3717,7 +3727,7 @@ span.hidelink
 .redondeado {
 	margin: 20px auto 0;
 }
-.redondeado:before {
+/*.redondeado:before {
    background: transparent url(../images/arr-der.png) scroll no-repeat top right;
    margin-bottom: -10px;
    height: 14px;
@@ -3738,7 +3748,7 @@ span.hidelink
    height: 14px;
    background: transparent url(../images/aba-der.png) scroll no-repeat bottom right;
    padding: 0;
-}
+}*/
 
 
 .redondeado * {
@@ -3750,5 +3760,53 @@ span.hidelink
    padding: 0;
    background: #993333;
    color: white;
-   margin-right: -1px;
+   height: 122px;
+}
+
+div[class*="990"], 
+div[class*="728"], 
+div[class*="400"], 
+div[class*="150"] {
+	display: none;
+}
+
+.banner728.header { float: right; }
+.banner728 a,
+.banner728.header a{
+	display: block;
+	width: 728px;
+	height: 90px;
+	background: url(../images/banners/banner728x90.jpg) no-repeat;
+}
+
+.banner990 a {
+	display: block;
+	width: 990px;
+	height: 122px;
+	background: url(../images/banners/banner990x122.jpg) no-repeat;
+}
+
+.banner400 a {
+	float: left;
+	margin:3px;
+	display: block;
+	width: 400px;
+	height: 90px;
+	background: url(../images/banners/banner400x90.jpg) no-repeat;
+}
+
+.banner150 a {
+	float: left;
+	margin:4px;
+	display: block;
+	width: 150px;
+	height: 90px;
+	background: url(../images/banners/banner150x90.jpg) no-repeat;
+}
+
+.banner550 a {
+	display: block;
+	width: 550px;
+	height: 90px;
+	background: url(../images/banners/banner550x90.jpg) no-repeat;
 }

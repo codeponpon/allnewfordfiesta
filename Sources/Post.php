@@ -1234,6 +1234,17 @@ function Post2()
 		$_POST['message'] = $_REQUEST['message'];
 	}
 
+	// Aeva - START
+	// On posting new topic/reply/full modify: replace embed HTML, do lookups, and/or check whether YouTube links are embeddable
+	if (!empty($_POST['message']))
+	{
+		global $sourcedir;
+		@include_once($sourcedir . '/Subs-Aeva.php');
+		if (function_exists('aeva_onposting'))
+			$_POST['message'] = aeva_onposting($_POST['message']);
+	}
+	// Aeva - END
+
 	// Previewing? Go back to start.
 	if (isset($_REQUEST['preview']))
 		return Post();
@@ -1521,7 +1532,7 @@ function Post2()
 		preparsecode($_POST['message']);
 
 		// Let's see if there's still some content left without the tags.
-		if ($smcFunc['htmltrim'](strip_tags(parse_bbc($_POST['message'], false), '<img>')) === '' && (!allowedTo('admin_forum') || strpos($_POST['message'], '[html]') === false))
+		if ($smcFunc['htmltrim'](strip_tags(parse_bbc($_POST['message'], false), '<img><object><embed>')) === '' && (!allowedTo('admin_forum') || strpos($_POST['message'], '[html]') === false))
 			$post_errors[] = 'no_message';
 	}
 	if (isset($_POST['calendar']) && !isset($_REQUEST['deleteevent']) && $smcFunc['htmltrim']($_POST['evtitle']) === '')
@@ -2724,11 +2735,22 @@ function JavaScriptModify()
 		}
 		else
 		{
+			// Aeva - START
+			// On Quick Edit - Only call if message is set.
+			if (!empty($_POST['message']))
+			{
+				global $sourcedir;
+				@include_once($sourcedir . '/Subs-Aeva.php');
+				if (function_exists('aeva_onposting'))
+					$_POST['message'] = aeva_onposting($_POST['message']);
+			}
+			// Aeva - END
+
 			$_POST['message'] = $smcFunc['htmlspecialchars']($_POST['message'], ENT_QUOTES);
 
 			preparsecode($_POST['message']);
 
-			if ($smcFunc['htmltrim'](strip_tags(parse_bbc($_POST['message'], false), '<img>')) === '')
+			if ($smcFunc['htmltrim'](strip_tags(parse_bbc($_POST['message'], false), '<img><object><embed>')) === '')
 			{
 				$post_errors[] = 'no_message';
 				unset($_POST['message']);

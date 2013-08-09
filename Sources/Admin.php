@@ -218,6 +218,10 @@ function AdminMain()
 					'icon' => 'modifications.gif',
 					'subsections' => array(
 						'general' => array($txt['mods_cat_modifications_misc']),
+						// Aeva - START
+						'aeva' => array(loadlanguage('Aeva') == false ? 'Aeva' : $txt['aeva']),
+						'aevasites' => array(!isset($txt['aeva_sites']) ? 'Aeva Sites' : $txt['aeva_sites']),
+						// Aeva - END
 						// Mod Authors for a "ADD AFTER" on this line. Ensure you end your change with a comma. For example:
 						// 'shout' => array($txt['shout']),
 						// Note the comma!! The setting with automatically appear with the first mod to be added.
@@ -790,6 +794,7 @@ function AdminSearchInternal()
 		array('ModifyModerationSettings', 'area=securitysettings;sa=moderation'),
 		array('ModifyGeneralModSettings', 'area=modsettings;sa=general'),
 		// Mod authors if you want to be "real freaking good" then add any setting pages for your mod BELOW this line!
+		array('ModifyAevaSettings', 'area=modsettings;sa=aeva'),
 		array('ManageAttachmentSettings', 'area=manageattachments;sa=attachments'),
 		array('ManageAvatarSettings', 'area=manageattachments;sa=avatars'),
 		array('ModifyCalendarSettings', 'area=managecalendar;sa=settings'),

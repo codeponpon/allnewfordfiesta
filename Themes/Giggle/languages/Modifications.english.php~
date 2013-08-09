@@ -32,4 +32,18 @@ $txt['board_viewers_child'] = 'Viewers'; // Viewers: 145
 $txt['board_viewer_child'] = 'Viewer'; // Viewer: 1
 // End Of Board Viewers Mod
 
+			// InformationBarMod
+$txt['ib_text'] = 'InformationBar Text <div class="smalltext">allows HTML code.</div>';
+$txt['ib_enable'] = 'Enable InformationBar';
+
+	/* ================= BANNERS ===============*/ 
+	$txt['header728']['img'] = $settings['images_url'] . '/banners/banner728x90.jpg';
+	$txt['header728']['url'] = 'http://www.fiestaecoboostclub.com';
+
+	$txt['banner990']['img'] = $settings['images_url'] . '/banners/banner990x122.jpg';
+	$txt['banner990']['url'] = 'http://www.fiestaecoboostclub.com';
+
+	$txt['banner550']['img'] = $settings['images_url'] . '/banners/banner550x90.jpg';
+	$txt['banner550']['url'] = 'http://www.fiestaecoboostclub.com'
+	/* ================= BANNERS ===============*/ 
 ?>

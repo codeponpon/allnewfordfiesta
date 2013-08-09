@@ -1699,6 +1699,17 @@ function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = arra
 	$open_tags = array();
 	$message = strtr($message, array("\n" => '<br />'));
 
+	// Aeva - START
+	// Protect noembed & autolink items from embedding *before* BBC parsing - wrap quotes, but don't protect
+	if (empty($parse_tags) && empty($context['uninstalling']) && !empty($modSettings['aeva_enable']) && strlen($message) > 15)
+	{
+		global $sourcedir;
+		@include_once($sourcedir . '/Subs-Aeva.php');
+		if (function_exists('aeva_preprotect'))
+			aeva_preprotect($message, $cache_id);
+	}
+	// Aeva - END
+
 	// The non-breaking-space looks a bit different each time.
 	$non_breaking_space = $context['utf8'] ? ($context['server']['complex_preg_chars'] ? '\x{A0}' : "\xC2\xA0") : '\xA0';
 
@@ -2422,6 +2433,17 @@ function parse_bbc($message, $smileys = true, $cache_id = '', $parse_tags = arra
 
 	// Cleanup whitespace.
 	$message = strtr($message, array('  ' => ' &nbsp;', "\r" => '', "\n" => '<br />', '<br /> ' => '<br />&nbsp;', '&#13;' => "\n"));
+
+	// Aeva - START
+	// Do the actual embedding
+	if (empty($parse_tags) && !function_exists('aeva_parse_bbc2'))
+	{
+		global $sourcedir;
+		@include_once($sourcedir . '/Subs-Aeva.php');
+	}
+	if (empty($parse_tags) && function_exists('aeva_parse_bbc2'))
+		aeva_parse_bbc2($message, $smileys, $cache_id);
+	// Aeva - END
 
 	// Cache the output if it took some time...
 	if (isset($cache_key, $cache_t) && array_sum(explode(' ', microtime())) - array_sum(explode(' ', $cache_t)) > 0.05)
@@ -3921,6 +3943,8 @@ function setupMenuContext()
 	$context['allow_edit_profile'] = !$user_info['is_guest'] && allowedTo(array('profile_view_own', 'profile_view_any', 'profile_identity_own', 'profile_identity_any', 'profile_extra_own', 'profile_extra_any', 'profile_remove_own', 'profile_remove_any', 'moderate_forum', 'manage_membergroups', 'profile_title_own', 'profile_title_any'));
 	$context['allow_memberlist'] = allowedTo('view_mlist');
 	$context['allow_calendar'] = allowedTo('calendar_view') && !empty($modSettings['cal_enabled']);
+		$context['allow_view_contact'] = allowedTo('view_contact');
+		
 	$context['allow_moderation_center'] = $context['user']['can_mod'];
 	$context['allow_pm'] = allowedTo('pm_read');
 
@@ -4067,7 +4091,15 @@ function setupMenuContext()
 					),
 				),
 			),
-			'mlist' => array(
+						
+		// [Contact Page] button
+			'contact' => array(
+				'title' => $txt['smfcontact_contact'],
+				'href' => $scripturl . '?action=contact',
+				'show' => $context['allow_view_contact'],
+				'icon' => '',
+			),
+'mlist' => array(
 				'title' => $txt['members_title'],
 				'href' => $scripturl . '?action=mlist',
 				'show' => $context['allow_memberlist'],

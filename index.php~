@@ -259,7 +259,6 @@ function smf_main()
 		'clock' => array('Calendar.php', 'clock'),
 		'collapse' => array('BoardIndex.php', 'CollapseCategory'),
 		'coppa' => array('Register.php', 'CoppaForm'),
-		'contact' => array('Contact2.php', 'Contact'),
 		'credits' => array('Who.php', 'Credits'),
 		'deletemsg' => array('RemoveTopic.php', 'DeleteMessage'),
 		'display' => array('Display.php', 'Display'),

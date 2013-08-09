@@ -211,7 +211,7 @@ function template_main()
 	$ignoredMsgs = array();
 	$removableMessageIDs = array();
 	$alternate = false;
-
+	$count_banner = 0;
 	// Get all the messages...
 	while ($message = $context['get_message']())
 	{
@@ -400,7 +400,7 @@ function template_main()
 								<li class="email"><a href="', $scripturl, '?action=emailuser;sa=email;msg=', $message['id'], '" rel="nofollow">', ($settings['use_image_buttons'] ? '<img src="' . $settings['images_url'] . '/email_sm.gif" alt="' . $txt['email'] . '" title="' . $txt['email'] . '" />' : $txt['email']), '</a></li>';
 
 		// Done with the information about the poster... on to the post itself.
-		echo 'Add ads to ', __FILE__ , ' ' , __LINE__;
+		// echo 'Add ads to ', __FILE__ , ' ' , __LINE__;
 		echo '
 							</ul>
 						</div>
@@ -495,7 +495,11 @@ function template_main()
 		echo '
 							<div class="post">';
 
-    echo 'add ads code to this file >>> ' , __FILE__ . ' ' . __LINE__;
+    // echo 'add ads code to this file >>> ' , __FILE__ . ' ' . __LINE__;
+		if($count_banner==0){
+			echo '<div class="banner728"><a href="'.$txt['banner728']['url'].'" title=""></a></div>';			
+			$count_banner++;
+		}
 
 		if (!$message['approved'] && $message['member']['id'] != 0 && $message['member']['id'] == $context['user']['id'])
 			echo '

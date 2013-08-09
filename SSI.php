@@ -1076,31 +1076,37 @@ function ssi_login($redirect_to = '', $output_method = 'echo')
 		return $user_info['is_guest'];
 
 	echo '
+	<div class="cat_bar">
+				<h3 class="catbg" style="float:left;">
+					<span class="ie6_header floatleft"><img src="'.$imageurl.'/Themes/Giggle/images/icons/login_sm.gif" alt="" class="icon"> เข้าสู่ระบบ</span>
+				</h3>
 		<form action="', $scripturl, '?action=login2" method="post" accept-charset="', $context['character_set'], '">
 			<table border="0" cellspacing="1" cellpadding="0" class="ssi_table">
 				<tr>
 					<td align="right"><label for="user">', $txt['username'], ':</label>&nbsp;</td>
 					<td><input type="text" id="user" name="user" size="9" value="', $user_info['username'], '" class="input_text" /></td>
-				</tr><tr>
+
 					<td align="right"><label for="passwrd">', $txt['password'], ':</label>&nbsp;</td>
 					<td><input type="password" name="passwrd" id="passwrd" size="9" class="input_password" /></td>
-				</tr>';
+				';
 
 	// Open ID?
 	if (!empty($modSettings['enableOpenID']))
-		echo '<tr>
+		echo '
 					<td colspan="2" align="center"><strong>&mdash;', $txt['or'], '&mdash;</strong></td>
-				</tr><tr>
+			
 					<td align="right"><label for="openid_url">', $txt['openid'], ':</label>&nbsp;</td>
 					<td><input type="text" name="openid_identifier" id="openid_url" class="input_text openid_login" size="17" /></td>
-				</tr>';
+			';
 
-	echo '<tr>
+	echo '
 					<td><input type="hidden" name="cookielength" value="-1" /></td>
 					<td><input type="submit" value="', $txt['login'], '" class="button_submit" /></td>
 				</tr>
 			</table>
-		</form>';
+		</form>
+		</div>
+		<div class="clear"></div>';
 
 }
 

@@ -178,6 +178,11 @@ function template_kitsitemap_footer_above()
 function template_kitsitemap_footer_below()
 {
 	global $context, $scripturl, $modSettings;
+
+	echo '<div class="login_footer"><center> <div class="clear"></div>';
+		ssi_login();
+	echo '<div class="clear"></div></center></div>';
+
 	if (!empty($context['categories']))
 	{
 		$count = 1;

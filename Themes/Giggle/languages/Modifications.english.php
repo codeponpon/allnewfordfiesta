@@ -36,4 +36,40 @@ $txt['board_viewer_child'] = 'Viewer'; // Viewer: 1
 $txt['ib_text'] = 'InformationBar Text <div class="smalltext">allows HTML code.</div>';
 $txt['ib_enable'] = 'Enable InformationBar';
 
+	/* ================= BANNERS ===============*/ 
+	$txt['header728']['img'] = $settings['images_url'] . '/banners/banner728x90.jpg';
+	$txt['header728']['url'] = 'http://www.fiestaecoboostclub.com';
+
+	$txt['banner990']['img'] = $settings['images_url'] . '/banners/banner990x122.jpg';
+	$txt['banner990']['url'] = 'http://www.fiestaecoboostclub.com';
+
+	$txt['banner550']['img'] = $settings['images_url'] . '/banners/banner550x90.jpg';
+	$txt['banner550']['url'] = 'http://www.fiestaecoboostclub.com';
+	/* ================= BANNERS ===============*/ 
+// Begin Contact Page Text Strings
+$txt['smfcontact_contact'] = 'Contact';
+$txt['permissionname_view_contact'] = 'View Contact Page';
+$txt['permissionhelp_view_contact'] = 'Allows members to view contact page and send email.';
+$txt['cannot_view_contact'] = 'You can not view the contact page.';
+$txt['smfcontact_name'] = 'Your Name:';
+$txt['smfcontact_subject'] = 'Subject';
+$txt['smfcontact_body'] = 'Message';
+$txt['smfcontact_emailaddress'] = 'Email Address';
+$txt['smfcontact_sendemail'] = 'Send e-mail';
+$txt['smfcontact_messagesent'] = 'Your message has been sent!';
+$txt['smfcontact_messagesent_click'] = 'Your message has been sent! Click ';
+$txt['smfcontact_messagesent_return'] = 'here</a> to return to the board.';
+$txt['smfcontact_errname'] = 'You need to enter your name.';
+$txt['smfcontact_errsubject'] = 'You need to enter a subject.';
+$txt['smfcontact_errmessage'] = 'You need to enter a message.';
+$txt['smfcontact_erremail'] = 'You need to enter your email address.';
+$txt['smfcontact_titlesent'] = ' - Message sent.';
+$txt['smfcontact_form'] = 'Contact Page Form for ';
+$txt['smfcontact_formname'] = "Name: ";
+$txt['smfcontact_formemail'] = "Email: ";
+$txt['smfcontact_ip'] = "IP: ";
+$txt['smfcontact_formmessage'] =  "Message: \n";
+$txt['smfcontactpage_email'] = 'SMF Contact Page Email: ';
+// END Contact Page Text Strings			
+
 ?>

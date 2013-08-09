@@ -18,16 +18,16 @@ $mtitle = 'Maintenance Mode';		# Title for the Maintenance Mode message.
 $mmessage = 'Okay faithful users...we\'re attempting to restore an older backup of the database...news will be posted once we\'re back!';		# Description of why the forum is in maintenance mode.
 
 ########## Forum Info ##########
-$mbname = 'All New Ford Fiesta Ecoboot Club';		# The name of your forum.
+$mbname = 'All New Ford Fiesta Ecoboost Club';		# The name of your forum.
 $language = 'thai-utf8';		# The default language file set for the forum.
-$boardurl = 'http://allnewfordfiesta.dev';		# URL to your forum's folder. (without the trailing /!)
+$boardurl = 'http://fiestaecoboostclub.dev';		# URL to your forum's folder. (without the trailing /!)
 $webmaster_email = 'codeponpon@outlook.com';		# Email address to send emails from. (like noreply@yourdomain.com.)
 $cookiename = 'SMFCookie512';		# Name of the cookie to set for authentication.
 
 ########## Database Info ##########
 $db_type = 'mysql';
 $db_server = 'localhost';
-$db_name = 'fiesta';
+$db_name = 'thaiboba_fiestaecoboost1';
 $db_user = 'root';
 $db_passwd = '';
 $ssi_db_user = '';

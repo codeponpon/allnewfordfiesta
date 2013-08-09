@@ -165,6 +165,8 @@ function template_html_above()
 	echo $context['html_headers'];
 
 	echo '
+
+<script type="text/javascript" src="http://mod.postimage.org/smf-english.js" charset="utf-8"></script>
 </head>
 <body>';
 }
@@ -211,22 +213,7 @@ function template_body_above()
 	</div>
 	<div id="header">
 		<div class="wrapper">
-			<div id="search_box">
-				<form action="', $scripturl, '?action=search2" method="post" accept-charset="', $context['character_set'], '">
-				<input class="inputbox" type="text" name="search" value="', $txt['forum_search'], '" onfocus="this.value = \'\';" onblur="if(this.value==\'\') this.value=\'', $txt['forum_search'], '\';" />
-                                <input id="submit" name="submit" type="submit" value="Search" />';
-
-	// Search within current topic?
-	if (!empty($context['current_topic']))
-		echo '
-					<input type="hidden" name="topic" value="', $context['current_topic'], '" />';
-	// If we're on a certain board, limit it to this board ;).
-	elseif (!empty($context['current_board']))
-		echo '
-					<input type="hidden" name="brd[', $context['current_board'], ']" value="', $context['current_board'], '" />';
-
-	                echo '</form>
-		         </div>
+			<div class="banner728 header"><a href="'.$txt['header728']['url'].'" title=""></a></div>
 			<div id="logo">
 				<a href="'.$scripturl.'" title=""></a>
 			</div>
@@ -241,7 +228,8 @@ function template_body_above()
 		<div class="wrapper">';
 			if (!empty($txt['ib_text']) && !empty($txt['ib_enable']))
 			{
-				echo '<div class="redondeado"><p align="center"> ', $txt['ib_text'] ,'</p></div> ';
+				echo '<div class="redondeado banner990"><a href="'.$txt['banner990']['url'].'" title=""></a></div> ';
+				// echo '<div class="redondeado banner990x125"><p align="center"> ', $txt['ib_text'] ,'</p></div> ';
 			}
 			
 			echo '<div id="main_content_section">';
@@ -389,8 +377,13 @@ function template_menu()
 	}
 
 	echo '
-			</ul>
-		</div>';
+			</ul>';
+	require_once($baseUrl . '/SSI.php');
+	echo '<div class="login_footer"><center> <div class="clear"></div>';
+		ssi_login();
+	echo '<div class="clear"></div></center></div>';
+	echo '	</div>';
+	echo '<div class="clear"></div>';
 }
 
 // Generate a strip of buttons.
